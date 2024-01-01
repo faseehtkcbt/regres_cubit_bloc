@@ -36,36 +36,32 @@ class HomeScreen extends StatelessWidget {
                       child: SingleChildScrollView(
                         child: Column(
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                SizedBox(
-                                  height: 40,
-                                  width: 250,
-                                  // color: Colors.green,
-                                  child: TextField(
-                                    onChanged: (value) {
-                                      if (value.isEmpty) {
-                                        context
-                                            .read<SearchUserCubit>()
-                                            .searchUser(
-                                                userState.data.data!, "");
-                                      } else {
-                                        context
-                                            .read<SearchUserCubit>()
-                                            .searchUser(
-                                                userState.data.data!, value);
-                                      }
-                                    },
-                                    decoration: InputDecoration(
-                                        prefixIcon: const Icon(Icons.search),
-                                        label: const Text('Search'),
-                                        border: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(20))),
-                                  ),
+                            Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: SizedBox(
+                                height: 50,
+                                width: double.infinity,
+                                child: TextField(
+                                  onChanged: (value) {
+                                    if (value.isEmpty) {
+                                      context
+                                          .read<SearchUserCubit>()
+                                          .searchUser(userState.data.data!, "");
+                                    } else {
+                                      context
+                                          .read<SearchUserCubit>()
+                                          .searchUser(
+                                              userState.data.data!, value);
+                                    }
+                                  },
+                                  decoration: InputDecoration(
+                                      prefixIcon: const Icon(Icons.search),
+                                      label: const Text('Search'),
+                                      border: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(20))),
                                 ),
-                              ],
+                              ),
                             ),
                             ListView.builder(
                                 physics: BouncingScrollPhysics(),

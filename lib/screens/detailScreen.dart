@@ -2,16 +2,23 @@ import 'package:flutter/material.dart';
 
 import '../data/modal/ListModel.dart';
 
-
 class DetailScreen extends StatelessWidget {
-   Data data;
-  DetailScreen({super.key,required this.data});
+  Data data;
+  DetailScreen({super.key, required this.data});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:  Text(""),
+        backgroundColor: Colors.deepPurpleAccent,
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(
+              Icons.arrow_back_outlined,
+              color: Colors.white,
+            )),
       ),
       backgroundColor: Colors.deepPurpleAccent,
       body: Center(
@@ -19,8 +26,8 @@ class DetailScreen extends StatelessWidget {
           color: Colors.deepPurple,
           margin: const EdgeInsets.all(50.0),
           shape:
-          RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-          child:  Padding(
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+          child: Padding(
             padding: const EdgeInsets.all(20.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
