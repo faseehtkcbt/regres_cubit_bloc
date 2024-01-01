@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:regres_cubit_bloc/Cubit/search_user_cubit.dart';
-import 'package:regres_cubit_bloc/Cubit/user_cubit.dart';
+import 'package:regres_cubit_bloc/bloc/user_new_bloc.dart';
 
 import 'detailScreen.dart';
 
@@ -11,23 +11,24 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<UserCubit>().getUserList();
+      context.read<UserNewBloc>().add(GetUserList());
     });
     return Scaffold(
-
-      body: BlocConsumer<UserCubit, UserState>(
+      body: BlocConsumer<UserNewBloc, UserNewState>(
         listener: (context, userState) {
           // TODO: implement listener
         },
         builder: (context, userState) {
-          if (userState is UserLoaded) {
-            context.read<SearchUserCubit>().searchUser(userState.data.data!, "");
+          if (userState is UserNewLoaded) {
+            context
+                .read<SearchUserCubit>()
+                .searchUser(userState.data.data!, "");
             return BlocConsumer<SearchUserCubit, SearchUserState>(
               listener: (context, searchState) {
                 // TODO: implement listener
               },
               builder: (context, searchState) {
-                if(searchState is SearchUserLoaded){
+                if (searchState is SearchUserLoaded) {
                   return SafeArea(
                     child: Container(
                       height: double.infinity,
@@ -44,26 +45,32 @@ class HomeScreen extends StatelessWidget {
                                   // color: Colors.green,
                                   child: TextField(
                                     onChanged: (value) {
-                                      if(value.isEmpty){
-                                        context.read<SearchUserCubit>().searchUser(userState.data.data!, "");
-                                      }
-                                      else{
-                                        context.read<SearchUserCubit>().searchUser(userState.data.data!, value);
+                                      if (value.isEmpty) {
+                                        context
+                                            .read<SearchUserCubit>()
+                                            .searchUser(
+                                                userState.data.data!, "");
+                                      } else {
+                                        context
+                                            .read<SearchUserCubit>()
+                                            .searchUser(
+                                                userState.data.data!, value);
                                       }
                                     },
                                     decoration: InputDecoration(
                                         prefixIcon: const Icon(Icons.search),
                                         label: const Text('Search'),
                                         border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.circular(20))),
+                                            borderRadius:
+                                                BorderRadius.circular(20))),
                                   ),
                                 ),
                               ],
                             ),
                             ListView.builder(
-                              physics: BouncingScrollPhysics(),
-                              padding: EdgeInsets.all(8),
-                              shrinkWrap: true,
+                                physics: BouncingScrollPhysics(),
+                                padding: EdgeInsets.all(8),
+                                shrinkWrap: true,
                                 itemCount: searchState.data.length,
                                 itemBuilder: (context, index) {
                                   return GestureDetector(
@@ -71,7 +78,8 @@ class HomeScreen extends StatelessWidget {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => DetailScreen(data: searchState.data[index])),
+                                            builder: (context) => DetailScreen(
+                                                data: searchState.data[index])),
                                       );
                                     },
                                     child: Card(
@@ -83,20 +91,22 @@ class HomeScreen extends StatelessWidget {
                                       child: Padding(
                                         padding: const EdgeInsets.all(30.0),
                                         child: Row(
-                                          mainAxisAlignment: MainAxisAlignment
-                                              .spaceAround,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
                                           children: [
                                             CircleAvatar(
                                               backgroundImage: NetworkImage(
-                                               searchState.data[index].avatar!,
+                                                searchState.data[index].avatar!,
                                                 // foundperson[index]['avatar'],
                                               ),
                                               radius: 40.0,
                                             ),
                                             Text(
-                                                searchState.data[index].firstName!+" "+
-                                              searchState.data[index].lastName!,
-
+                                              searchState
+                                                      .data[index].firstName! +
+                                                  " " +
+                                                  searchState
+                                                      .data[index].lastName!,
 
                                               // foundperson[index]['first_name'].toString(),
                                               style: const TextStyle(
@@ -114,8 +124,7 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                   );
-                }
-                else{
+                } else {
                   return const Center(
                     child: SizedBox(
                       height: 50,
@@ -126,8 +135,7 @@ class HomeScreen extends StatelessWidget {
                 }
               },
             );
-          }
-          else if (userState is UserError) {
+          } else if (userState is UsernewError) {
             return const Center(
               child: Text("SomeThing went wrong"),
             );

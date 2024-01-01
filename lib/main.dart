@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:regres_cubit_bloc/Cubit/search_user_cubit.dart';
-import 'package:regres_cubit_bloc/Cubit/user_cubit.dart';
+import 'package:regres_cubit_bloc/bloc/user_new_bloc.dart';
 import 'package:regres_cubit_bloc/screens/homeScreen.dart';
 
 void main() {
@@ -37,8 +37,8 @@ class MyApp extends StatelessWidget {
       ),
       home: MultiBlocProvider(
         providers: [
-          BlocProvider<UserCubit>(create: (context)=>UserCubit()),
-          BlocProvider<SearchUserCubit>(create: (context)=>SearchUserCubit()),
+          BlocProvider<UserNewBloc>(create: (context) => UserNewBloc()),
+          BlocProvider<SearchUserCubit>(create: (context) => SearchUserCubit()),
         ],
         child: const HomeScreen(),
       ),
